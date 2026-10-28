@@ -1,273 +1,71 @@
-<div align="center">
+# ShopSphere — Demo E-commerce App (React Native + Expo + TypeScript)
 
-<img width="100%" alt="ShopSphere — Everything You Love, Delivered" src="https://github.com/user-attachments/assets/916b4c39-45aa-4744-9e8d-76fe8a1e762c" />
+A small, fully working demo store: Home, Search, Product Details, Wishlist, Cart,
+Coupons, Checkout, Orders + Tracking, Account, Reviews, Admin Dashboard, About and
+Contact. Everything is stored on-device with AsyncStorage. All 14 product photos
+and banners are bundled in `assets/images/` (Unsplash photos, free license;
+visible third-party brand marks were removed), so the app works fully offline.
 
-# ShopSphere
+Checkout, payments, tracking, notifications and support replies are all openly
+labelled as simulated — no real money, messages, or notifications leave the device.
 
-### Everything You Love, Delivered.
-
-A modern e-commerce mobile application built with React Native, Expo and TypeScript.
-
-<p>
-<img src="https://img.shields.io/badge/React_Native-Mobile-61DAFB?logo=react&logoColor=white" alt="React Native" />
-<img src="https://img.shields.io/badge/Expo-Development-000020?logo=expo&logoColor=white" alt="Expo" />
-<img src="https://img.shields.io/badge/TypeScript-Strictly_Typed-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-<img src="https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white" alt="Android" />
-</p>
-
-**Discover. Shop. Save. Track.**
-
-</div>
-
----
-
-## 🛍️ About the Project
-
-**ShopSphere** is a cross-platform mobile shopping application designed to bring essential e-commerce functionality into one intuitive experience.
-
-From discovering products and comparing prices to managing a wishlist, applying discount coupons, and tracking orders, ShopSphere demonstrates how a modern shopping application can be built with a clean user interface and straightforward application architecture.
-
-Developed using React Native and Expo, the project brings together reusable UI components, interactive screens, application state management, navigation, form validation, and on-device data persistence.
-
-> Built as a Cross-Platform App Development project, ShopSphere turns core mobile development concepts into a practical, interactive shopping experience.
-
-## ✨ Features
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🏠 Discover & Explore
-- Promotional banners and featured collections
-- Product categories and new arrivals
-- Product search and category filters
-- Price filtering and sorting
-- Product details, availability and ratings
-
-</td>
-<td width="50%" valign="top">
-
-### ❤️ Your Shopping Space
-- Personal wishlist
-- Shopping cart and quantity management
-- Dynamic subtotal and order totals
-- Discount coupons
-- Delivery charge calculations
-- Checkout form validation
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 📦 Orders & Customers
-- Simulated checkout and order confirmation
-- Order history and order details
-- Simulated delivery tracking
-- Editable customer profile
-- Reviews and product ratings
-- Locally stored preferences
-
-</td>
-<td width="50%" valign="top">
-
-### ⚙️ Store Management
-- Demo admin dashboard
-- Product and inventory management
-- Order status management
-- Basic sales statistics
-- Stock validation and cancellation handling
-- Local persistence using AsyncStorage
-
-</td>
-</tr>
-</table>
-
-## 📱 Application Flow
-
-The application is designed around a straightforward shopping journey.
-
-```mermaid
-flowchart TD
-    A[Home] --> B[Search & Categories]
-    B --> C[Product Details]
-    C --> D[Wishlist]
-    C --> E[Shopping Cart]
-    D --> E
-    E --> F[Coupons & Price Summary]
-    F --> G[Checkout]
-    G --> H[Order Confirmation]
-    H --> I[Order History & Tracking]
-    A --> J[Profile]
-    A --> K[Admin Dashboard]
-```
-
-## 🧰 Technology Stack
-
-| Technology | Role |
-|---|---|
-| React Native | Cross-platform mobile interface |
-| Expo | Development tooling and application runtime |
-| TypeScript | Type-safe application development |
-| React Navigation | Navigation between screens |
-| React Hooks | Component state and interactive UI updates |
-| AsyncStorage | On-device persistence |
-| Flexbox | Responsive interface layouts |
-| StyleSheet | Component styling |
-
-## 🏗️ Project Structure
-
-The project keeps related functionality together to make the codebase easier to understand, maintain, and explain.
-
-```text
-ShopSphere/
-├── assets/
-│   └── images/       # Local product and promotional images
-├── screens/          # Shopping and account screens
-├── App.tsx           # Application setup and navigation
-├── index.ts          # Expo entry point
-├── catalog.ts        # Product catalogue and sample data
-├── store.tsx         # Shared state and persistence
-├── ui.tsx            # Reusable UI components
-├── utils.ts          # Shared calculations and helpers
-├── app.json          # Expo configuration
-├── package.json      # Dependencies and scripts
-├── package-lock.json # Locked dependency versions
-└── README.md
-```
-
-### Architecture at a glance
-
-- **Screens** handle the different areas of the shopping experience.
-- **Reusable UI components** maintain consistent styling and interactions.
-- **Shared store** manages cart, wishlist, order and related application state.
-- **Catalogue data** provides the initial products and sample information.
-- **Utility functions** centralize calculations and common validation logic.
-- **AsyncStorage** preserves supported user and shopping data locally.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js compatible with the project's Expo SDK
-- npm
-- Android Studio with an Android emulator, or a compatible mobile device
-
-### 1. Clone the repository
+## Setup & run
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd ShopSphere
+npm install
+npx expo start --android   # launches on the already-running emulator (check: adb devices)
 ```
 
-Replace `<YOUR_GITHUB_REPOSITORY_URL>` with your repository's actual clone URL.
-
-### 2. Install dependencies
+Checks:
 
 ```bash
-npm ci
+npx tsc --noEmit   # must pass with no errors
+npx expo-doctor    # diagnostics
 ```
 
-The project includes `package-lock.json` to support reproducible dependency installation.
+No test suite ships with the template, so verification is the checks above plus
+the manual emulator pass below. Demo coupons: `WELCOME20` (20% off up to ₹800,
+min ₹999), `SAVE10` (10% off up to ₹500), `FLAT100` (flat ₹100 off, min ₹799),
+`FREESHIP` (free delivery). Admin mode: Account → Settings → Demo Admin Mode.
 
-### 3. Start the application
+## Final structure (15 source files)
 
-```bash
-npx expo start
+```
+App.tsx            entry + all navigation (bottom tabs inside a native stack)
+catalog.ts         all types + 14 products + coupons + banners + seed reviews
+store.tsx          global state (ShopProvider/useShop): cart, wishlist, profile,
+                   orders, user reviews, admin catalogue — all persisted
+ui.tsx             theme + every shared component (buttons, inputs, product
+                   cards, stars, steppers, banners, review cards, price rows…)
+utils.ts           money math (one shared cart summary), validation, storage
+screens/Home.tsx       banners, categories, featured + new rails, product grid
+screens/Search.tsx     live search + category, price and sort filters
+screens/Product.tsx    details, stock status, quantity, wishlist, reviews
+screens/Cart.tsx       quantities, coupons, price summary
+screens/Wishlist.tsx   saved items, stock-aware move-to-cart
+screens/Checkout.tsx   address + simulated payment + order confirmation
+screens/Orders.tsx     order history + simulated delivery tracking
+screens/Account.tsx    editable profile, photo, notification switches, menu
+screens/Admin.tsx      sales stats, product add/stock/delete, order advancing
+screens/About.tsx      honest demo info + on-device customer-support form
+assets/images/     14 product photos, 3 banners, avatar placeholder (all local)
 ```
 
-To launch on your running Android emulator, press **`a`** in the Expo terminal.
+## Verified test results (emulator-5554, Expo Go, SDK 58)
 
-Alternatively, scan the displayed QR code with a compatible Expo Go installation.
-
-### 4. Run the TypeScript check
-
-```bash
-npm run typecheck
-```
-
-## 🎟️ Try the Demo Coupons
-
-ShopSphere includes sample coupon codes for demonstrating discount and delivery calculations.
-
-| Coupon | Offer |
-|---|---|
-| `WELCOME20` | 20% off, capped at ₹800 |
-| `SAVE10` | 10% off |
-| `FREESHIP` | Free delivery |
-
-The standard delivery fee is ₹49 for eligible orders below ₹999. Orders meeting the free-delivery threshold receive free delivery, and the `FREESHIP` coupon removes the delivery charge.
-
-Discount eligibility and final totals are calculated by the application's shopping logic.
-
-## ✅ Development & Testing
-
-The latest development pass included:
-
-- TypeScript validation — passed.
-- Expo Doctor — passed all 20 checks.
-- Android emulator testing — primary shopping flows exercised.
-- Cart and inventory checks — order cancellation, stock restoration, and product removal verified.
-- Coupon validation — `WELCOME20`, `SAVE10`, and `FREESHIP` tested.
-- Product reviews — submission, display, and aggregate rating behavior checked.
-- Checkout — cart reconciliation and order placement tested.
-
-These results describe the latest reported development pass and are not a guarantee that every possible device configuration is defect-free.
-
-## ⚠️ Scope & Limitations
-
-ShopSphere is an academic e-commerce prototype, not a production commerce platform.
-
-- **Product catalogue:** Uses seeded sample data and local product assets.
-- **Persistence:** Supported application data is stored on-device using AsyncStorage.
-- **Payments:** Payment methods and transactions are simulated; no real payment is processed.
-- **Orders:** Order history and delivery tracking use local demo data.
-- **Customer support:** Messages are stored locally and are not sent to an external support team.
-- **Notifications:** Preference switches do not send real push notifications or emails.
-- **Administration:** The admin dashboard demonstrates management workflows but does not provide production-grade authentication.
-- **Backend:** No live backend or remote database is connected.
-
-These limitations keep the project focused on demonstrating mobile application development concepts while leaving clear opportunities for future expansion.
-
-## 🔮 Future Enhancements
-
-Potential next steps include:
-
-- Backend API and database integration
-- Customer authentication and protected admin access
-- Real payment gateway integration
-- Cloud-synchronised carts, wishlists and orders
-- Push notifications and order updates
-- Automated unit and integration tests
-- Product recommendations and personalised shopping
-
-## 🎓 Learning Outcomes
-
-Developing ShopSphere provided practical experience with:
-
-- Functional components and Props
-- React Hooks and state management
-- Reusable components and project organization
-- React Native core components
-- Flexbox and responsive layouts
-- Multi-screen navigation
-- Search, filtering and event handling
-- Form validation and pricing calculations
-- Persistent local application state
-- Interactive shopping workflows
-
-## 📄 License
-
-This project was created for academic and demonstration purposes. No open-source license has been specified.
-
----
-
-<div align="center">
-
-### ShopSphere
-
-**Shop Smarter. Live Better.**
-
-Built with React Native, Expo and TypeScript.
-
-</div>
+- `npx tsc --noEmit` → exit 0, no errors. `npx expo-doctor` → 20/20 passed.
+- Manual tap-through with screenshots, all passing: browse → product →
+  add-to-cart dialog → cart; `WELCOME20` (−₹800 on ₹9,998) and `SAVE10`
+  (−₹500 on ₹4,999); invalid code shows “Invalid coupon code”; delivery ₹49
+  below ₹999 and FREE above, `FREESHIP` zeroes it; validated address form →
+  order placed → tracking timeline with coupon line → order history.
+- Cancelling an order returns its items to stock (tee 120 → 119 → 120,
+  confirmed in Admin). Admin-deleted products disappear from the shop
+  (search “sunglass” → 0 results). Admin add-product accepts 0 stock.
+- Review submit publishes immediately, bumps the count and blends into the
+  average; Buy Now jumps straight to checkout; support form stores a ticket
+  and lists previous messages on-device.
+- Metro log has no app errors. One `AsyncStorage … undefined key` warning at
+  startup comes from the Expo Go host app: every storage key in ShopSphere is
+  a string literal (enforced by `tsc`), and the single storage wrapper is only
+  ever called with those keys.
